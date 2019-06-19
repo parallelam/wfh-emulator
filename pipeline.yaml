@@ -1,0 +1,10 @@
+type: java
+appLayer: emulator
+appName: xccapiemulator
+awsEcrRepo: 429573557772.dkr.ecr.us-west-2.amazonaws.com/dcg-hwaas
+k8sCluster: k8-dcg-hwaas-stg-green.dev.cloud.motorola.net
+k8sClusterProd:
+k8sAutoDeploy: true
+sonarScan: true
+jenkinsAgentBuild: cloud-slave-jdk11-aws
+jenkinsAgentDeployment: ecs_container_instances_v2.0

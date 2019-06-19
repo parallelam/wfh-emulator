@@ -1,0 +1,58 @@
+node('cloud-slave-jdk11-aws') {
+    try {
+        stage ('Checkout SCM') {
+            checkout scm
+        }
+        stage('Validate Code') {
+            sh 'mvn clean validate'
+        }
+        stage('Build') {
+            sh 'mvn compile'
+        }
+        try {
+            stage('Unit Testing') {
+                sh 'mvn test'
+            }
+        } finally {
+            junit '**/surefire-reports/*.xml'
+        }
+
+        stage("Verify Dependencies") {
+            sh 'mvn verify -DskipTests'
+        }
+        stage('SonarQube analysis') {
+
+            //using Sonar plugin analyze the code with Sonarqube.  sonar.properties file needs to be in root of Gitlab project
+
+            def scannerHome = tool 'SonarScanner';
+            print "${scannerHome}"
+
+            withSonarQubeEnv('sonar-prod') {
+
+                def script = "${scannerHome}/bin/sonar-scanner"
+
+                //sh "${scannerHome}/bin/sonar-scanner"
+                return sh(script: script, returnStdout: true)
+
+            }
+
+        }
+        if (currentBuild.currentResult == 'SUCCESS') {
+            stage ('Configure AWS Profile') {
+                withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'JENKINS_AWS_KEY', usernameVariable: 'ACCESS_KEY', passwordVariable: 'SECRET_KEY']]) {
+                    sh 'aws configure set aws_access_key_id ${ACCESS_KEY}'
+                    sh 'aws configure set aws_secret_access_key ${SECRET_KEY}'
+                    sh 'aws configure set default.region us-west-2'
+                    sh 'aws configure list'
+                    sh 'eval $(aws ecr get-login --no-include-email)'
+                }
+            }
+            stage('Deploy to ECR') {
+                sh 'mvn clean install -DskipTests -DskipITs'
+            }
+        }
+    }
+    finally{
+        archiveArtifacts artifacts: '**/*.jar', fingerprint: true
+    }
+}
