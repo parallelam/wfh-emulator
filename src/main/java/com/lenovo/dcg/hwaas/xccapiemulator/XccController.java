@@ -1,20 +1,18 @@
 package com.lenovo.dcg.hwaas.xccapiemulator;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.sql.Time;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Random;
 import java.util.TimeZone;
-
-//import java.util.Date;
 
 @RestController
 public class XccController {
@@ -39,7 +37,7 @@ public class XccController {
         return timeZone;
     }
 
-    private String generateMeteringData(int maxValue, int minValue, int count, boolean minMax, String name) {
+    private String generateMeteringData(int maxValue, int minValue, int count, boolean minMax, String name) throws JSONException {
         Calendar date = Calendar.getInstance();
         DateFormat tzConverter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ssXXX");
         tzConverter.setTimeZone(TimeZone.getTimeZone(timeZone));
@@ -57,25 +55,21 @@ public class XccController {
                 for (int j = 0; j < 3; j++)
                     randomNumbers[j] = random.nextInt((maxValue + 1) - minValue) + minValue;
                 Arrays.sort(randomNumbers);
-
                 minEntry.put("Timestamp", localConverter.format(date.getTime()));
                 minEntry.put("MetricValue", randomNumbers[0]);
                 minEntry.put("Duration", "00:30");
                 minEntry.put("MetricType", "Min");
                 minEntry.put("TimestampWithTZ", tzConverter.format(date.getTime()));
-
                 maxEntry.put("Timestamp", localConverter.format(date.getTime()));
                 maxEntry.put("MetricValue", randomNumbers[2]);
                 maxEntry.put("Duration", "00:30");
                 maxEntry.put("MetricType", "Max");
                 maxEntry.put("TimestampWithTZ", tzConverter.format(date.getTime()));
-
                 avgEntry.put("Timestamp", localConverter.format(date.getTime()));
                 avgEntry.put("MetricValue", randomNumbers[1]);
                 avgEntry.put("Duration", "00:30");
                 avgEntry.put("MetricType", "Avg");
                 avgEntry.put("TimestampWithTZ", tzConverter.format(date.getTime()));
-
                 container.put(minEntry);
                 container.put(maxEntry);
                 container.put(avgEntry);
@@ -87,7 +81,6 @@ public class XccController {
                 avgEntry.put("Duration", "00:30");
                 avgEntry.put("MetricType", "Avg");
                 avgEntry.put("TimestampWithTZ", tzConverter.format(date.getTime()));
-
                 container.put(avgEntry);
             }
             date.add(Calendar.SECOND, -30);
@@ -104,104 +97,9 @@ public class XccController {
         json.put("@odata.etag", "\"6ab47b7476d3b0039a8fd01dc7235f2d\"");
         json.put("@odata.id", "/redfish/v1/Systems/1/Oem/Lenovo/" + name);
         json.put("Description", "This resource is used to represent an array of history metric values in the container for a Redfish implementation.");
-
         return json.toString();
     }
-    @RequestMapping(path = "/redfish/v1/Systems/1", produces = MediaType.APPLICATION_JSON_VALUE)
-    public String System(){
-        return "{\"SerialNumber\":\"J1001R64\",\"HostName\":\"Emulatorlenovocom\",\"SKU\":\"123456\"}";
-    }
-    //todo: get actual value ranges from API spec
-    //todo: make random/dynamic
-    @RequestMapping(path = "/redfish/v1/Systems/1/Oem/Lenovo/Metrics", produces = MediaType.APPLICATION_JSON_VALUE)
-    public String Metrics() {
-        return "{\"@odata.id\":\"\\/redfish\\/v1\\/Systems\\/1\\/Oem\\/Lenovo\\/Metrics\",\"Name\":\"Historical Metrics\"," +
-                "\"@odata.context\":\"\\/redfish\\/v1\\/$metadata#LenovoHistoryMetricValueContainerCollection.LenovoHistoryMetricValueContainerCollection\"," +
-                "\"Members\":[{\"@odata.id\":\"\\/redfish\\/v1\\/Systems\\/1\\/Oem\\/Lenovo\\/Metrics\\/SystemInputPower\"}," +
-                "{\"@odata.id\":\"\\/redfish\\/v1\\/Systems\\/1\\/Oem\\/Lenovo\\/Metrics\\/SystemOutputPower\"}," +
-                "{\"@odata.id\":\"\\/redfish\\/v1\\/Systems\\/1\\/Oem\\/Lenovo\\/Metrics\\/CPUSubsystemPower\"}," +
-                "{\"@odata.id\":\"\\/redfish\\/v1\\/Systems\\/1\\/Oem\\/Lenovo\\/Metrics\\/MemorySubsystemPower\"}," +
-                "{\"@odata.id\":\"\\/redfish\\/v1\\/Systems\\/1\\/Oem\\/Lenovo\\/Metrics\\/PowerSupplyInputPower1\"}," +
-                "{\"@odata.id\":\"\\/redfish\\/v1\\/Systems\\/1\\/Oem\\/Lenovo\\/Metrics\\/PowerSupplyInputPower2\"}," +
-                "{\"@odata.id\":\"\\/redfish\\/v1\\/Systems\\/1\\/Oem\\/Lenovo\\/Metrics\\/PowerSupplyOutputPower1\"}," +
-                "{\"@odata.id\":\"\\/redfish\\/v1\\/Systems\\/1\\/Oem\\/Lenovo\\/Metrics\\/PowerSupplyOutputPower2\"}," +
-                "{\"@odata.id\":\"\\/redfish\\/v1\\/Systems\\/1\\/Oem\\/Lenovo\\/Metrics\\/SystemPerformance\"}," +
-                "{\"@odata.id\":\"\\/redfish\\/v1\\/Systems\\/1\\/Oem\\/Lenovo\\/Metrics\\/CPUSubsystemPerformance\"}," +
-                "{\"@odata.id\":\"\\/redfish\\/v1\\/Systems\\/1\\/Oem\\/Lenovo\\/Metrics\\/MemorySubsystemPerformance\"}," +
-                "{\"@odata.id\":\"\\/redfish\\/v1\\/Systems\\/1\\/Oem\\/Lenovo\\/Metrics\\/IOSubsystemPerformance\"}," +
-                "{\"@odata.id\":\"\\/redfish\\/v1\\/Systems\\/1\\/Oem\\/Lenovo\\/Metrics\\/InletAirTemp\"}]," +
-                "\"@odata.type\":\"#LenovoHistoryMetricValueContainerCollection.LenovoHistoryMetricValueContainerCollection\"," +
-                "\"@odata.etag\":\"\\\"ef459ef0f1904e93b3b0cc88c2c23b74\\\"\"," +
-                "\"Members@odata.count\":13," +
-                "\"Description\":\"A collection of HistoryMetricValueContainer resource instances.\"}";
-    }
 
-    @RequestMapping(path = "/redfish/v1/Systems/1/Oem/Lenovo/Metrics/SystemInputPower", produces = MediaType.APPLICATION_JSON_VALUE)
-    public String SystemInputPower() {
-        return generateMeteringData(20, 15, 120, true, "SystemInputPower");
-    }
-
-    @RequestMapping(path = "/redfish/v1/Systems/1/Oem/Lenovo/Metrics/SystemOutputPower", produces = MediaType.APPLICATION_JSON_VALUE)
-    public String SystemOutputPower() {
-        return generateMeteringData(15, 10, 120, true, "SystemOutputPower");
-    }
-
-    @RequestMapping(path = "/redfish/v1/Systems/1/Oem/Lenovo/Metrics/MemorySubsystemPower", produces = MediaType.APPLICATION_JSON_VALUE)
-    public String MemorySubsystemPower() {
-        return generateMeteringData(0, 0, 120, true, "MemorySubsystemPower");
-    }
-
-    @RequestMapping(path = "/redfish/v1/Systems/1/Oem/Lenovo/Metrics/PowerSupplyInputPower1", produces = MediaType.APPLICATION_JSON_VALUE)
-    public String PowerSupplyInputPower1() {
-        return generateMeteringData(5, 5, 120, false, "PowerSupplyInputPower1");
-    }
-
-    @RequestMapping(path = "/redfish/v1/Systems/1/Oem/Lenovo/Metrics/PowerSupplyInputPower2", produces = MediaType.APPLICATION_JSON_VALUE)
-    public String PowerSupplyInputPower2() {
-        return generateMeteringData(12, 13, 120, false, "PowerSupplyInputPower2");
-    }
-
-    @RequestMapping(path = "/redfish/v1/Systems/1/Oem/Lenovo/Metrics/PowerSupplyOutputPower1", produces = MediaType.APPLICATION_JSON_VALUE)
-    public String PowerSupplyOutputPower1() {
-        return generateMeteringData(0, 0, 120, false, "PowerSupplyOutputPower1");
-    }
-
-    @RequestMapping(path = "/redfish/v1/Systems/1/Oem/Lenovo/Metrics/PowerSupplyOutputPower2", produces = MediaType.APPLICATION_JSON_VALUE)
-    public String PowerSupplyOutputPower2() {
-        return generateMeteringData(0, 0, 120, false, "PowerSupplyOutputPower2");
-    }
-
-    @RequestMapping(path = "/redfish/v1/Systems/1/Oem/Lenovo/Metrics/SystemPerformance", produces = MediaType.APPLICATION_JSON_VALUE)
-    public String SystemPerformance() {
-        return generateMeteringData(0, 0, 120, true, "SystemPerformance");
-    }
-
-    @RequestMapping(path = "/redfish/v1/Systems/1/Oem/Lenovo/Metrics/CPUSubsystemPerformance", produces = MediaType.APPLICATION_JSON_VALUE)
-    public String CPUSubsystemPerformance() {
-        return generateMeteringData(0, 0, 120, false, "CPUSubsystemPerformance");
-    }
-
-    @RequestMapping(path = "/redfish/v1/Systems/1/Oem/Lenovo/Metrics/CPUSubsystemPower", produces = MediaType.APPLICATION_JSON_VALUE)
-    public String CPUSubsystemPower() {
-        return generateMeteringData(0, 0, 120, true, "CPUSubsystemPower");
-    }
-
-    @RequestMapping(path = "/redfish/v1/Systems/1/Oem/Lenovo/Metrics/MemorySubsystemPerformance", produces = MediaType.APPLICATION_JSON_VALUE)
-    public String MemorySubsystemPerformance() {
-        return generateMeteringData(0, 0, 120, false, "MemorySubsystemPerformance");
-    }
-
-    @RequestMapping(path = "/redfish/v1/Systems/1/Oem/Lenovo/Metrics/IOSubsystemPerformance", produces = MediaType.APPLICATION_JSON_VALUE)
-    public String IOSubsystemPerformance() {
-        return generateMeteringData(0, 0, 120, false, "IOSubsystemPerformance");
-    }
-
-    @RequestMapping(path = "/redfish/v1/Systems/1/Oem/Lenovo/Metrics/InletAirTemp", produces = MediaType.APPLICATION_JSON_VALUE)
-    public String InletAirTemp() {
-        return generateMeteringData(25, 25, 60, true, "InletAirTemp");
-    }
-
-    //todo: make random/dynamic
     @RequestMapping(path = "/redfish/v1/Managers/1", produces = MediaType.APPLICATION_JSON_VALUE)
     public String Managers() {
         Calendar date = Calendar.getInstance();
@@ -329,5 +227,95 @@ public class XccController {
                 "    \"@odata.id\": \"/redfish/v1/Managers/1/EthernetInterfaces\"\n" +
                 "  }\n" +
                 "}";
+    }
+    @RequestMapping(path = "/redfish/v1/Systems/1", produces = MediaType.APPLICATION_JSON_VALUE)
+    public String System(){
+        return "{\"SerialNumber\":\"J1001R64\",\"HostName\":\"Emulatorlenovocom\",\"SKU\":\"123456\"}";
+    }
+    @RequestMapping(path = "/redfish/v1/Systems/1/Oem/Lenovo/Metrics/SystemInputPower", produces = MediaType.APPLICATION_JSON_VALUE)
+    public String SystemInputPower() throws JSONException {
+        return generateMeteringData(999, 1, 120, true, "SystemInputPower");
+    }
+    @RequestMapping(path = "/redfish/v1/Systems/1/Oem/Lenovo/Metrics/SystemOutputPower", produces = MediaType.APPLICATION_JSON_VALUE)
+    public String SystemOutputPower() throws JSONException {
+        return generateMeteringData(999, 1, 120, true, "SystemOutputPower");
+    }
+    @RequestMapping(path = "/redfish/v1/Systems/1/Oem/Lenovo/Metrics/MemorySubsystemPower", produces = MediaType.APPLICATION_JSON_VALUE)
+    public String MemorySubsystemPower() throws JSONException {
+        return generateMeteringData(999, 1, 120, true, "MemorySubsystemPower");
+    }
+    @RequestMapping(path = "/redfish/v1/Systems/1/Oem/Lenovo/Metrics/CPUSubsystemPower", produces = MediaType.APPLICATION_JSON_VALUE)
+    public String CPUSubsystemPower() throws JSONException {
+        return generateMeteringData(999, 1, 120, true, "CPUSubsystemPower");
+    }
+
+    // Below paths are not pertinent to current metering requirements as of 06/19/2019:
+
+    @RequestMapping(path = "/redfish/v1/Systems/1/Oem/Lenovo/Metrics/PowerSupplyInputPower1", produces = MediaType.APPLICATION_JSON_VALUE)
+    public String PowerSupplyInputPower1() throws JSONException {
+        return generateMeteringData(5, 5, 120, false, "PowerSupplyInputPower1");
+    }
+
+    @RequestMapping(path = "/redfish/v1/Systems/1/Oem/Lenovo/Metrics/PowerSupplyInputPower2", produces = MediaType.APPLICATION_JSON_VALUE)
+    public String PowerSupplyInputPower2() throws JSONException {
+        return generateMeteringData(12, 13, 120, false, "PowerSupplyInputPower2");
+    }
+
+    @RequestMapping(path = "/redfish/v1/Systems/1/Oem/Lenovo/Metrics/PowerSupplyOutputPower1", produces = MediaType.APPLICATION_JSON_VALUE)
+    public String PowerSupplyOutputPower1() throws JSONException {
+        return generateMeteringData(0, 0, 120, false, "PowerSupplyOutputPower1");
+    }
+
+    @RequestMapping(path = "/redfish/v1/Systems/1/Oem/Lenovo/Metrics/PowerSupplyOutputPower2", produces = MediaType.APPLICATION_JSON_VALUE)
+    public String PowerSupplyOutputPower2() throws JSONException {
+        return generateMeteringData(0, 0, 120, false, "PowerSupplyOutputPower2");
+    }
+
+    @RequestMapping(path = "/redfish/v1/Systems/1/Oem/Lenovo/Metrics/SystemPerformance", produces = MediaType.APPLICATION_JSON_VALUE)
+    public String SystemPerformance() throws JSONException {
+        return generateMeteringData(0, 0, 120, true, "SystemPerformance");
+    }
+
+    @RequestMapping(path = "/redfish/v1/Systems/1/Oem/Lenovo/Metrics/CPUSubsystemPerformance", produces = MediaType.APPLICATION_JSON_VALUE)
+    public String CPUSubsystemPerformance() throws JSONException {
+        return generateMeteringData(0, 0, 120, false, "CPUSubsystemPerformance");
+    }
+
+    @RequestMapping(path = "/redfish/v1/Systems/1/Oem/Lenovo/Metrics/MemorySubsystemPerformance", produces = MediaType.APPLICATION_JSON_VALUE)
+    public String MemorySubsystemPerformance() throws JSONException {
+        return generateMeteringData(0, 0, 120, false, "MemorySubsystemPerformance");
+    }
+
+    @RequestMapping(path = "/redfish/v1/Systems/1/Oem/Lenovo/Metrics/IOSubsystemPerformance", produces = MediaType.APPLICATION_JSON_VALUE)
+    public String IOSubsystemPerformance() throws JSONException {
+        return generateMeteringData(0, 0, 120, false, "IOSubsystemPerformance");
+    }
+
+    @RequestMapping(path = "/redfish/v1/Systems/1/Oem/Lenovo/Metrics/InletAirTemp", produces = MediaType.APPLICATION_JSON_VALUE)
+    public String InletAirTemp() throws JSONException {
+        return generateMeteringData(25, 25, 60, true, "InletAirTemp");
+    }
+
+    @RequestMapping(path = "/redfish/v1/Systems/1/Oem/Lenovo/Metrics", produces = MediaType.APPLICATION_JSON_VALUE)
+    public String Metrics() {
+        return "{\"@odata.id\":\"\\/redfish\\/v1\\/Systems\\/1\\/Oem\\/Lenovo\\/Metrics\",\"Name\":\"Historical Metrics\"," +
+                "\"@odata.context\":\"\\/redfish\\/v1\\/$metadata#LenovoHistoryMetricValueContainerCollection.LenovoHistoryMetricValueContainerCollection\"," +
+                "\"Members\":[{\"@odata.id\":\"\\/redfish\\/v1\\/Systems\\/1\\/Oem\\/Lenovo\\/Metrics\\/SystemInputPower\"}," +
+                "{\"@odata.id\":\"\\/redfish\\/v1\\/Systems\\/1\\/Oem\\/Lenovo\\/Metrics\\/SystemOutputPower\"}," +
+                "{\"@odata.id\":\"\\/redfish\\/v1\\/Systems\\/1\\/Oem\\/Lenovo\\/Metrics\\/CPUSubsystemPower\"}," +
+                "{\"@odata.id\":\"\\/redfish\\/v1\\/Systems\\/1\\/Oem\\/Lenovo\\/Metrics\\/MemorySubsystemPower\"}," +
+                "{\"@odata.id\":\"\\/redfish\\/v1\\/Systems\\/1\\/Oem\\/Lenovo\\/Metrics\\/PowerSupplyInputPower1\"}," +
+                "{\"@odata.id\":\"\\/redfish\\/v1\\/Systems\\/1\\/Oem\\/Lenovo\\/Metrics\\/PowerSupplyInputPower2\"}," +
+                "{\"@odata.id\":\"\\/redfish\\/v1\\/Systems\\/1\\/Oem\\/Lenovo\\/Metrics\\/PowerSupplyOutputPower1\"}," +
+                "{\"@odata.id\":\"\\/redfish\\/v1\\/Systems\\/1\\/Oem\\/Lenovo\\/Metrics\\/PowerSupplyOutputPower2\"}," +
+                "{\"@odata.id\":\"\\/redfish\\/v1\\/Systems\\/1\\/Oem\\/Lenovo\\/Metrics\\/SystemPerformance\"}," +
+                "{\"@odata.id\":\"\\/redfish\\/v1\\/Systems\\/1\\/Oem\\/Lenovo\\/Metrics\\/CPUSubsystemPerformance\"}," +
+                "{\"@odata.id\":\"\\/redfish\\/v1\\/Systems\\/1\\/Oem\\/Lenovo\\/Metrics\\/MemorySubsystemPerformance\"}," +
+                "{\"@odata.id\":\"\\/redfish\\/v1\\/Systems\\/1\\/Oem\\/Lenovo\\/Metrics\\/IOSubsystemPerformance\"}," +
+                "{\"@odata.id\":\"\\/redfish\\/v1\\/Systems\\/1\\/Oem\\/Lenovo\\/Metrics\\/InletAirTemp\"}]," +
+                "\"@odata.type\":\"#LenovoHistoryMetricValueContainerCollection.LenovoHistoryMetricValueContainerCollection\"," +
+                "\"@odata.etag\":\"\\\"ef459ef0f1904e93b3b0cc88c2c23b74\\\"\"," +
+                "\"Members@odata.count\":13," +
+                "\"Description\":\"A collection of HistoryMetricValueContainer resource instances.\"}";
     }
 }
