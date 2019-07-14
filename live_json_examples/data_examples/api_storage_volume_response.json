@@ -1,0 +1,91 @@
+{
+ "records": [
+   {
+     "uuid": "051e5a48-def4-4b39-aaeb-15bb10b4bfc6",
+     "name": "CIFS_root",
+     "_links": {
+       "self": {
+         "href": "/api/storage/volumes/051e5a48-def4-4b39-aaeb-15bb10b4bfc6"
+       }
+     }
+   },
+   {
+     "uuid": "29b6da9f-3045-4030-b3c5-d98d0a2d6568",
+     "name": "CIFS_2",
+     "_links": {
+       "self": {
+         "href": "/api/storage/volumes/29b6da9f-3045-4030-b3c5-d98d0a2d6568"
+       }
+     }
+   },
+   {
+     "uuid": "48758aa4-dd1b-4982-a372-3914bd01f273",
+     "name": "FC_1",
+     "_links": {
+       "self": {
+         "href": "/api/storage/volumes/48758aa4-dd1b-4982-a372-3914bd01f273"
+       }
+     }
+   },
+   {
+     "uuid": "5b8d82d0-74f1-4fcf-8c94-67e6a0c868b5",
+     "name": "NFS_root",
+     "_links": {
+       "self": {
+         "href": "/api/storage/volumes/5b8d82d0-74f1-4fcf-8c94-67e6a0c868b5"
+       }
+     }
+   },
+   {
+     "uuid": "886a0c7d-ab9e-4496-a79b-6cd21f339424",
+     "name": "MultiSAN_root",
+     "_links": {
+       "self": {
+         "href": "/api/storage/volumes/886a0c7d-ab9e-4496-a79b-6cd21f339424"
+       }
+     }
+   },
+   {
+     "uuid": "a6dc5a8f-2163-41cf-90cc-39400ef0fb3b",
+     "name": "CIFS_1",
+     "_links": {
+       "self": {
+         "href": "/api/storage/volumes/a6dc5a8f-2163-41cf-90cc-39400ef0fb3b"
+       }
+     }
+   },
+   {
+     "uuid": "da4ada3e-d944-4631-b19f-9b9cb59f882e",
+     "name": "FC_2",
+     "_links": {
+       "self": {
+         "href": "/api/storage/volumes/da4ada3e-d944-4631-b19f-9b9cb59f882e"
+       }
+     }
+   },
+   {
+     "uuid": "dbe48b7a-0522-4350-801c-80a06656de0e",
+     "name": "NFS_2",
+     "_links": {
+       "self": {
+         "href": "/api/storage/volumes/dbe48b7a-0522-4350-801c-80a06656de0e"
+       }
+     }
+   },
+   {
+     "uuid": "fc1dacd8-9cdf-420c-af08-8c3b1aa199d1",
+     "name": "NFS_1",
+     "_links": {
+       "self": {
+         "href": "/api/storage/volumes/fc1dacd8-9cdf-420c-af08-8c3b1aa199d1"
+       }
+     }
+   }
+ ],
+ "num_records": 9,
+ "_links": {
+   "self": {
+     "href": "/api/storage/volumes"
+   }
+ }
+}

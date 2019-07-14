@@ -1,0 +1,68 @@
+{
+  "uuid": "fc1dacd8-9cdf-420c-af08-8c3b1aa199d1",
+  "comment": "",
+  "create_time": "2019-05-22T18:26:36+00:00",
+  "language": "c.utf_8",
+  "name": "NFS_1",
+  "size": 107374182400,
+  "state": "online",
+  "style": "flexvol",
+  "tiering": {
+    "policy": "none"
+  },
+  "type": "rw",
+  "aggregates": [
+    {
+      "name": "DM5000H_03_1_SSD_1",
+      "uuid": "c1276fc9-121e-44f7-bf53-1e3aef763c27"
+    }
+  ],
+  "clone": {
+    "is_flexclone": false
+  },
+  "nas": {
+    "export_policy": {
+      "name": "share_all"
+    }
+  },
+  "snapshot_policy": {
+    "name": "none"
+  },
+  "svm": {
+    "name": "NFS",
+    "uuid": "86af8393-7cb3-11e9-b0cf-00a098ddea9d"
+  },
+  "space": {
+    "size": 107374182400,
+    "available": 100198502400,
+    "used": 1806970880
+  },
+  "metric": {
+    "timestamp": "2019-07-12T05:03:45Z",
+    "duration": "PT15S",
+    "status": "ok",
+    "latency": {
+      "other": 0,
+      "total": 0,
+      "read": 0,
+      "write": 0
+    },
+    "iops": {
+      "read": 0,
+      "write": 0,
+      "other": 0,
+      "total": 0
+    },
+    "throughput": {
+      "read": 0,
+      "write": 0,
+      "other": 0,
+      "total": 0
+    }
+  },
+  "_links": {
+    "self": {
+      "href": "/api/storage/volumes/fc1dacd8-9cdf-420c-af08-8c3b1aa199d1"
+    }
+  }
+}
