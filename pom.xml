@@ -65,6 +65,12 @@
 
     <build>
         <plugins>
+                 <!-- For Local Development -->
+            <plugin>
+                 <groupId>com.heroku.sdk</groupId>
+                 <artifactId>heroku-maven-plugin</artifactId>
+                 <version>2.0.8</version>
+            </plugin>
             <plugin>
                 <groupId>pl.project13.maven</groupId>
                 <artifactId>git-commit-id-plugin</artifactId>
@@ -79,7 +85,11 @@
                     </execution>
                 </executions>
                 <configuration>
-                    <dotGitDirectory>${project.basedir}/.git</dotGitDirectory>
+                         <!-- For Local Development -->
+                    <failOnNoGitDirectory>false</failOnNoGitDirectory>
+                         <!-- For Local Development -->
+                    <dotGitDirectory>https://github.com/parallelam/wfh-emulator.git</dotGitDirectory>
+                         <!-- Environment Development -->
                     <injectAllReactorProjects>true</injectAllReactorProjects>
                 </configuration>
             </plugin>
@@ -87,17 +97,7 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
             </plugin>
-                 <!-- For Local Development -->
-            <plugin>
-                 <groupId>com.heroku.sdk</groupId>
-                 <artifactId>heroku-maven-plugin</artifactId>
-                 <configuration>
-                     <skip>true</skip>
-                     <failOnNoGitDirectory>false</failOnNoGitDirectory>
-                     <dotGitDirectory>https://github.com/parallelam/wfh-emulator.git</dotGitDirectory>        
-                 </configuration>
-                 <version>2.0.8</version>
-            </plugin>
+                 
             <plugin>
                 <groupId>com.spotify</groupId>
                 <artifactId>dockerfile-maven-plugin</artifactId>
