@@ -91,11 +91,11 @@
             <plugin>
                  <groupId>com.heroku.sdk</groupId>
                  <artifactId>heroku-maven-plugin</artifactId>
-                     <configuration>
-                              <dotGitDirectory>https://github.com/parallelam/wfh-emulator.git</dotGitDirectory>
-                              
-                         <failOnNoGitDirectory>false</failOnNoGitDirectory>
-                     </configuration>
+                 <configuration>
+                     <skip>true</skip>
+                     <failOnNoGitDirectory>false</failOnNoGitDirectory>
+                     <dotGitDirectory>https://github.com/parallelam/wfh-emulator.git</dotGitDirectory>        
+                 </configuration>
                  <version>2.0.8</version>
             </plugin>
             <plugin>
