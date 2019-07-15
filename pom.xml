@@ -92,6 +92,8 @@
                  <groupId>com.heroku.sdk</groupId>
                  <artifactId>heroku-maven-plugin</artifactId>
                      <configuration>
+                              <dotGitDirectory>https://github.com/parallelam/wfh-emulator.git</dotGitDirectory>
+                              
                          <failOnNoGitDirectory>false</failOnNoGitDirectory>
                      </configuration>
                  <version>2.0.8</version>
