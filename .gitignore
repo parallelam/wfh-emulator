@@ -7,6 +7,23 @@
 *.iml
 out
 gen
+.classpath
+.classpath/
+.project
+.project/
+.sts4-cache
+.sts4-cache/
+.settings
+.settings/
+target
+target/
+.mvn
+.mvn/
+.bin
+.bin/
+bin
+bin/
+
 ### Java template
 # Compiled class file
 *.class
