@@ -26,26 +26,26 @@ public class API_Storage_Volumes_UUID_Response {
         tzConverter.setTimeZone(TimeZone.getTimeZone(timeZone));
         DateFormat localConverter = new SimpleDateFormat("dd MMM yyyy, HH:mm:ss.SSS a");
 
-        int size = getRandomNumberInts(100000000, 999999999);
+        BigInteger size = new BigInteger(23, new Random());
 
-        int space_size = getRandomNumberInts(100000000, 999999999);
-        int space_available = getRandomNumberInts(100000000, 999999999);
-        int space_used = getRandomNumberInts(100000000, 999999999);
+        BigInteger space_size = new BigInteger(23, new Random());
+        BigInteger space_available = new BigInteger(23, new Random());
+        BigInteger space_used = new BigInteger(23, new Random());
 
-        int latency_other = getRandomNumberInts(100000000, 999999999);
-        int latency_total = getRandomNumberInts(100000000, 999999999);
-        int latency_read = getRandomNumberInts(100000000, 999999999);
-        int latency_write = getRandomNumberInts(100000000, 999999999);
+        BigInteger latency_other = new BigInteger(23, new Random());
+        BigInteger latency_total = new BigInteger(23, new Random());
+        BigInteger latency_read = new BigInteger(23, new Random());
+        BigInteger latency_write = new BigInteger(23, new Random());
 
-        int iops_other = getRandomNumberInts(100000000, 999999999);
-        int iops_total = getRandomNumberInts(100000000, 999999999);
-        int iops_read = getRandomNumberInts(100000000, 999999999);
-        int iops_write = getRandomNumberInts(100000000, 999999999);
+        BigInteger iops_other = new BigInteger(23, new Random());
+        BigInteger iops_total = new BigInteger(23, new Random());
+        BigInteger iops_read = new BigInteger(23, new Random());
+        BigInteger iops_write = new BigInteger(23, new Random());
 
-        int throughput_other = getRandomNumberInts(100000000, 999999999);
-        int throughput_total = getRandomNumberInts(100000000, 999999999);
-        int throughput_read = getRandomNumberInts(100000000, 999999999);
-        int throughput_write = getRandomNumberInts(100000000, 999999999);
+        BigInteger throughput_other = new BigInteger(23, new Random());
+        BigInteger throughput_total = new BigInteger(23, new Random());
+        BigInteger throughput_read = new BigInteger(23, new Random());
+        BigInteger throughput_write = new BigInteger(23, new Random());
 
         UUID aggregatesRandomId = UUID.randomUUID();
         String aggregatesRandomIdString = aggregatesRandomId.toString();
