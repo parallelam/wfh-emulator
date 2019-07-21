@@ -2,7 +2,7 @@
 
 The HWaaS Emulator was built to mimic mock responses from the XCC Z51 chip and the data chip from the DM/DE series. 
 
-The current Swagger documentation (work in progress) can be viewed [here](https://hwaas-emulator.herokuapp.com/swagger-ui.html/).
+The current Swagger documentation (work in progress) can be viewed [here](https://xccapiemulator-dev-k8.dev.cloud.motorola.net/redfish/v1/Systems/1/Oem/Lenovo/Metrics/SystemInputPower).
 
 For live JSON examples pulled from the real chip paths they are currently saved in the "live_json_examples" directory in this project for referencing.
 
